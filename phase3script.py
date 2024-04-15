@@ -12,7 +12,7 @@ from sqlalchemy import select
 
 
 
-engine = create_engine("postgresql+psycopg2://postgres:power2postgres@localhost/postgres")
+engine = create_engine("postgresql+psycopg2://postgres:password@localhost/postgres")
 
 class Base(DeclarativeBase):
     pass
