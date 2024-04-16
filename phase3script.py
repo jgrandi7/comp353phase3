@@ -93,17 +93,6 @@ class Fine(Base):
     
 Base.metadata.create_all(engine)
 
-#allInstitutionNames query (Ella)
-
-session = Session(engine)
-
-all_institutions = session.query(Institution.institutionname)
-
-print("### Print All Institution Names ###")
-for institution_name in all_institutions:
-  print(f"Institution Name: {institution_name}")
-
-session.close()
     
 ##loyolaCustomers query (Ella)
 
