@@ -128,9 +128,12 @@ session.close()
 # creditFinesAbove0 (Matthew)
 
 session = Session(engine)
-fines = session.query(Fine).where(Fine.finepaymenttype == "Credit Card").where(Fine.fineamount > 0)
+fines = session.query(Fine).join(EquipmentLoan).join(SchoolCustomer).where(Fine.finepaymenttype == "Credit Card").where(Fine.fineamount > 0)
 print("\n### Print credit card fines above $0 ###")
 for fine in fines:
-    print(f"Fine id: {fine.fineid}, fine amount: {fine.fineamount}")
+    eloan = fine.loan
+    cust = eloan.schoolcustomer
+    print(f"{cust.customerfirst} {cust.customerlast} owes ${fine.fineamount}, and they're paying with a credit card.")
 
 session.close()
+
