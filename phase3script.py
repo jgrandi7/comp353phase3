@@ -64,6 +64,21 @@ class schoolemployee(Base):
 def __repr__(self) -> str:
     return f"schoolemployee(employeeid={self.employeeid!r}, employeelast={self.employeelast!r}, employeefirst={self.employeefirst!r}, employeetitle={self.employeetitle!r},employeesalary={self.employeesalary!r},institutionid={self.institutionid!r})"
 
+##create equpimentLoan class
+
+class equipmentloan(Base):
+    __tablename__ = "equipmentloan"
+
+    loanid: Mapped[int] = mapped_column(Integer, primary_key=True)
+    loantype: Mapped[str] = mapped_column(String(100))
+    loancheckouttime: Mapped[datetime] = mapped_column(insert_default=func.now)
+    loanreturntime: Mapped[datetime] = mapped_column(insert_default=func.now)
+    loannumber: Mapped[int] = mapped_column(Integer)
+    customerid: Mapped[int] = mapped_column(Integer, ForeignKey("schoolcustomer.customerid"))
+    employeeid: Mapped [int] = mapped_column(Integer, ForeignKey("schoolemployee.employeeid"))
+    
+def __repr__(self) -> str:
+    return f"equipmentloan(loanid={self.loanid!r}, loantype={self.loantype!r}, loancheckouttime={self.loancheckouttime!r}, loanreturntime={self.loanreturntime!r},loannumber={self.loannumber!r},customerid={self.customerid!r},employeeid={self.employeeid!r})"
 
 Base.metadata.create_all(engine)
 
