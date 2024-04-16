@@ -35,14 +35,15 @@ class institution(Base):
 ##create schoolcustomer class
 
 class schoolcustomer(Base):
-    __tablename__ = "schoolcustomer"
-    
-    customerid: Mapped[int] = mapped_column(Integer, primary_key=True)
-    customerlast: Mapped[str] = mapped_column(String(100))
-    customerfirst: Mapped[str] = mapped_column(String(100))
-    institutionid: Mapped[int] = mapped_column(Integer, ForeignKey("institution.institutionid"))
+	__tablename__ = "schoolcustomer"
+	customerid: Mapped[int] = mapped_column(Integer, primary_key=True)
+	customerlast: Mapped[str] = mapped_column(String(100))
+	customerfirst: Mapped[str] = mapped_column(String(100))
+	
+	institutionid: Mapped[int] = mapped_column(Integer, ForeignKey("institution.institutionid"))
+	institution: Mapped["institution"] = relationship(back_populates="customers")
 
-    institution: Mapped["institution"] = relationship(back_populates="customers")
+	equipmentloans: Mapped[List["equipmentloan"]] = relationship(back_populates="schoolcustomer",cascade="all,delete-orphan")
     
     def __repr__(self) -> str:
         return f"schoolcustomer(customerid={self.customerid!r}, customerlast={self.customerlast!r}, customerfirst={self.customerfirst!r}, institutionid={self.institutionid!r})"
@@ -57,9 +58,11 @@ class schoolemployee(Base):
 	employeefirst: Mapped[str] = mapped_column(String(100))
 	employeetitle: Mapped[str] = mapped_column(String(100))
 	employeesalary: Mapped[int] = mapped_column(Integer, primary_key=True)
+	
 	institutionid: Mapped[int] = mapped_column(Integer, ForeignKey("institution.institutionid"))
-
 	institution: Mapped["institution"] = relationship(back_populates="employees")
+	
+	equipmentloans: Mapped[List["equipmentloan"]] = relationship(back_populates="schoolemployee",cascade="all,delete-orphan")
 
 def __repr__(self) -> str:
     return f"schoolemployee(employeeid={self.employeeid!r}, employeelast={self.employeelast!r}, employeefirst={self.employeefirst!r}, employeetitle={self.employeetitle!r},employeesalary={self.employeesalary!r},institutionid={self.institutionid!r})"
@@ -74,6 +77,7 @@ class equipmentloan(Base):
     loancheckouttime: Mapped[datetime] = mapped_column(insert_default=func.now)
     loanreturntime: Mapped[datetime] = mapped_column(insert_default=func.now)
     loannumber: Mapped[int] = mapped_column(Integer)
+	
     customerid: Mapped[int] = mapped_column(Integer, ForeignKey("schoolcustomer.customerid"))
     employeeid: Mapped [int] = mapped_column(Integer, ForeignKey("schoolemployee.employeeid"))
     
