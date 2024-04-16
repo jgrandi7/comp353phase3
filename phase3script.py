@@ -117,7 +117,7 @@ for customer in loyola_customers:
 ##northwesternEmployeeSalary query (Jacob)
 
 session = Session(engine)
-northwestern_employees = session.query(SchoolEmployee).join(Institution).where(Institution.institutionname == "Northwestern University")
+northwestern_employees = session.query(SchoolEmployee).join(Institution).where(Institution.institutionid == "1851")
 
 print("\n### Print Salaries of Northwestern University Employees ###")
 for employee in northwestern_employees:
